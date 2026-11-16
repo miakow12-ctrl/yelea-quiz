@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>叶里YELEA｜猜猜我的松弛人设</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:"PingFang SC",sans-serif}
+body{background:#f2f7ee;color:#334433;padding:16px;max-width:480px;margin:0 auto}
+.box{background:#fff;border-radius:20px;padding:20px;margin-bottom:16px}
+.title{text-align:center;margin-bottom:20px}
+.title h1{font-size:28px;color:#2c5035;margin-bottom:8px}
+.title p{color:#55705c;font-size:16px}
+.question{display:none}
+.question.active{display:block}
+.q-title{font-size:17px;font-weight:500;margin-bottom:14px;line-height:1.5}
+.opt{border:1px solid #d8e4d6;border-radius:14px;padding:14px;margin-bottom:10px;cursor:pointer;transition:0.2s}
+.opt:hover{border-color:#72a878;background:#f6faf4}
+.opt.selected{background:#e4f1e2;border-color:#4b8c54}
+.btn{width:100%;padding:14px;border:none;border-radius:999px;background:#2c5035;color:#fff;font-size:17px;margin-top:12px;cursor:pointer}
+.result{display:none;text-align:center}
+.result .tag{font-size:22px;font-weight:bold;margin:12px 0}
+.result .desc{line-height:1.7;margin:14px 0;color:#445548}
+.result .good{background:#f6faf4;padding:14px;border-radius:14px;margin:16px 0}
+.start-page{display:block}
+.start-page img{width:100%;border-radius:16px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="start-page" id="start">
+  <div class="title">
+    <h1>猜猜我的松弛人设</h1>
+    <p>完成10道轻趣自测，召唤你的秋日栗香茶礼</p>
+  </div>
+  <div class="box">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:15px;margin-bottom:12px">玩法步骤</div>
+      <div style="text-align:left;display:inline-block">1.测一测<br>2.分享朋友圈<br>3.好友点亮银杏叶<br>4.挂满30人解锁茶礼</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:15px;margin-bottom:8px">活动奖励</div>
+      <div>集齐30位好友助力<br>领取新品茶包一份</div>
+    </div>
+  </div>
+  <button class="btn" onclick="startTest()">立即测试</button>
+</div>
+
+<div id="quizWrap" style="display:none">
+  <!-- 10题 -->
+  <div class="question active" data-q="1">
+    <div class="q-title">Q1 工作日下班之后，你更倾向？</div>
+    <div class="opt" data-score="3">A 尽快放空，把工作彻底关在脑外</div>
+    <div class="opt" data-score="2">B 做点轻运动，瑜伽/普拉提舒展身体</div>
+    <div class="opt" data-score="1">C 看点剧吃点小零食，慵懒躺平回血</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="2">
+    <div class="q-title">Q2 面对咖啡，你的真实状态是？</div>
+    <div class="opt" data-score="3">A 喝了容易心慌手抖，不太敢多碰</div>
+    <div class="opt" data-score="2">B 偶尔喝，更偏爱温和茶香类饮品</div>
+    <div class="opt" data-score="1">C 离不开咖啡，全靠咖啡因撑住状态</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="3">
+    <div class="q-title">Q3 秋冬口渴，你会优先选择哪一类饮品？</div>
+    <div class="opt" data-score="3">A 温润热茶，喜欢淡淡的自然果香、栗香</div>
+    <div class="opt" data-score="2">B 白开水为主，饮品追求0糖无负担</div>
+    <div class="opt" data-score="1">C 奶茶果饮，喜欢甜感带来的快乐</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="4">
+    <div class="q-title">Q4 周末的理想一天，你更向往？</div>
+    <div class="opt" data-score="3">A 宅家独处，看书喝茶，不赶任何行程</div>
+    <div class="opt" data-score="2">B 户外出行，露营、散步，亲近大自然</div>
+    <div class="opt" data-score="1">C 充实社交，约朋友见面探店打卡</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="5">
+    <div class="q-title">Q5 关于养生，你的态度是？</div>
+    <div class="opt" data-score="3">A 拒绝焦虑式养生，舒服自在最重要</div>
+    <div class="opt" data-score="2">B 适度轻养，日常小习惯慢慢维持状态</div>
+    <div class="opt" data-score="1">C 随缘，怎么开心怎么来，不刻意讲究</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="6">
+    <div class="q-title">Q6 压力大情绪紧绷的时候，你会？</div>
+    <div class="opt" data-score="3">A 安静冥想发呆，和自己好好相处</div>
+    <div class="opt" data-score="2">B 运动流汗，用身体释放情绪压力</div>
+    <div class="opt" data-score="1">C 美食治愈，靠好吃的安抚坏情绪</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="7">
+    <div class="q-title">Q7 随身水杯，对你来说意味着？</div>
+    <div class="opt" data-score="3">A 日常必需品，走到哪带到哪</div>
+    <div class="opt" data-score="2">B 看场景，运动通勤才会带上</div>
+    <div class="opt" data-score="1">C 很少随身带，到地方再买饮品</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="8">
+    <div class="q-title">Q8 对于生活仪式感，你的看法？</div>
+    <div class="opt" data-score="3">A 低成本小细节，不用刻意用力精致</div>
+    <div class="opt" data-score="2">B 喜欢氛围感，愿意为舒服质感买单</div>
+    <div class="opt" data-score="1">C 仪式感可有可无，简单省事优先</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="9">
+    <div class="q-title">Q9 秋天到来，你最期待什么？</div>
+    <div class="opt" data-score="3">A 暖呼呼的食物，板栗、热茶这类暖意</div>
+    <div class="opt" data-score="2">B 秋日出游，感受秋风与山野风景</div>
+    <div class="opt" data-score="1">C 换季穿搭，换上松弛舒服的新衣服</div>
+    <button class="btn" onclick="nextQ()">下一题</button>
+  </div>
+  <div class="question" data-q="10">
+    <div class="q-title">Q10 面对内卷，你的人生态度更接近？</div>
+    <div class="opt" data-score="3">A 工作认真，但绝不内耗自己</div>
+    <div class="opt" data-score="2">B 尽力就好，接纳自己的普通状态</div>
+    <div class="opt" data-score="1">C 适当努力，但是拒绝过度紧绷</div>
+    <button class="btn" onclick="showResult()">查看我的松弛人设</button>
+  </div>
+</div>
+
+<div id="resultPage" class="result box">
+  <div class="tag" id="resTag"></div>
+  <div id="resDesc"></div>
+  <div class="good" id="resGood"></div>
+  <p style="font-size:14px;color:#666">分享朋友圈，召集好友点亮银杏叶，集齐30人即可领取新品茶包</p>
+  <button class="btn" onclick="restart()">重新测试</button>
+</div>
+
+<script>
+let score = 0;
+let curQ = 1;
+const totalQ = 10;
+const opts = document.querySelectorAll('.opt');
+opts.forEach(opt=>{
+  opt.onclick = function(){
+    const parent = this.parentElement;
+    parent.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'))
+    this.classList.add('selected');
+    parent.dataset.s = this.dataset.score;
+  }
+})
+
+function startTest(){
+  document.getElementById('start').style.display='none';
+  document.getElementById('quizWrap').style.display='block';
+}
+function nextQ(){
+  const qDom = document.querySelector(`.question[data-q="${curQ}"]`);
+  if(!qDom.dataset.s){alert("请选择一项");return}
+  score += Number(qDom.dataset.s);
+  qDom.classList.remove('active');
+  curQ++;
+  document.querySelector(`.question[data-q="${curQ}"]`).classList.add('active');
+}
+function showResult(){
+  const qDom = document.querySelector(`.question[data-q="${curQ}"]`);
+  if(!qDom.dataset.s){alert("请选择一项");return}
+  score += Number(qDom.dataset.s);
+  document.getElementById('quizWrap').style.display='none';
+  let tag,desc,good;
+  if(score>=25){
+    tag = "🍂栗香自愈家";
+    desc = `<b>你的松弛标签：向内安顿，温柔自洽</b><br><br>习惯把情绪留给自己，拒绝内卷焦虑。不依靠咖啡因硬撑，偏爱温润茶香的治愈力量。懂得在忙碌职场里给自己留独处缝隙，一杯暖茶就是最好的精神补给。<br><br><i>松弛宣言：不必时刻光芒万丈，舒服自在就是最高级的生活。</i>`
+    good = "🌰适配好物：叶里·栗香炭焙乌龙｜0蔗糖栗香温润乌龙，替亢奋咖啡因，安抚你的疲惫时刻。";
+  }else if(score>=21){
+    tag = "🧘山野轻愈者";
+    desc = `<b>你的松弛标签：动养结合，拥抱自然</b><br><br>热爱轻运动，瑜伽普拉提、户外散步是你的解压方式。追求体态与情绪双向稳定，向往山野与晚风。随身水杯不离手，需要一杯适配运动前后、冷热都能泡的轻养茶饮。<br><br><i>松弛宣言：身体舒展了，生活才会松弛。</i>`
+    good = "🌰适配好物：叶里·栗香炭焙乌龙｜冷热双泡便携茶包，瑜伽课后、秋日露营都适合，满口温柔板栗甜香。";
+  }else if(score>=17){
+    tag = "☕温和平衡派";
+    desc = `<b>你的松弛标签：张弛有度，分寸感生活</b><br><br>认真对待工作，也不会亏待生活。偶尔喝咖啡，却畏惧咖啡因带来失眠心慌，一直在寻找更温和的饮品替代。不硬凹精致，在平凡日常里捕捉小质感。<br><br><i>松弛宣言：不用极致自律，平衡即是最好状态。</i>`
+    good = "🌰适配好物：叶里·栗香炭焙乌龙｜无药感原叶乌龙，淡淡的板栗甜香，工位日常的温柔饮品选择。";
+  }else if(score>=13){
+    tag = "🛋慵懒回血星人";
+    desc = `<b>你的松弛标签：允许摆烂，快乐优先</b><br><br>忙碌过后主打躺平回血，拒绝强迫自己自律养生。生活没有条条框框，怎么舒服怎么来，也愿意被秋日暖香小物治愈。<br><br><i>松弛宣言：偶尔摆烂，也是成年人的充电方式。</i>`
+    good = "🌰适配好物：叶里·栗香炭焙乌龙｜不用繁琐冲泡，独立茶包随手一泡，宅家躺平也能拥有秋日氛围感茶香。";
+  }else{
+    tag = "✨随性自在玩家";
+    desc = `<b>你的松弛标签：随心而行，拒绝套路</b><br><br>讨厌复杂的养生套路，不爱被生活标签束缚。喜欢探索新鲜事物，享受社交、探店、出门游玩，在烟火日常里寻找松弛感。<br><br><i>松弛宣言：生活没有标准答案，开心即是正确答案。</i>`
+    good = "🌰适配好物：叶里·栗香炭焙乌龙｜独立便携小茶袋，出门随身揣上，随时随地喝上一杯秋日栗香。";
+  }
+  document.getElementById('resTag').innerText = tag;
+  document.getElementById('resDesc').innerHTML = desc;
+  document.getElementById('resGood').innerText = good;
+  document.getElementById('resultPage').style.display='block';
+}
+function restart(){
+  score=0;curQ=1;
+  document.querySelectorAll('.question').forEach(q=>{
+    q.classList.remove('active');delete q.dataset.s;
+    q.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'))
+  })
+  document.querySelector(`.question[data-q="1"]`).classList.add('active');
+  document.getElementById('resultPage').style.display='none';
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('start').style.display='block';
+}
+</script>
+</body>
+</html>
